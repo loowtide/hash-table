@@ -1,5 +1,4 @@
 #include "hash_table.h"
-#include "prime.h"
 #include <math.h>
 #include <stddef.h>
 #include <stdint.h>
@@ -7,7 +6,8 @@
 #include <string.h>
 
 static void ht_resize_up(ht_hash_table *);
-
+int next_prime(int x);
+int is_prime(const int x);
 static void ht_resize_down(ht_hash_table *);
 
 static ht_item HT_DELETED_ITEM = {NULL, NULL};
@@ -161,4 +161,26 @@ static void ht_resize_up(ht_hash_table *ht) {
 static void ht_resize_down(ht_hash_table *ht) {
   const int new_size = ht->base_size / 2;
   ht_resize(ht, new_size);
+}
+
+// prime generation
+int is_prime(const int x) {
+  if (x < 2)
+    return -1;
+  if (x < 4)
+    return 1;
+  if (!(x & 1))
+    return 0;
+  for (int i = 3; i * i <= x; i++) {
+    if (x % i == 0)
+      return 0;
+  }
+  return 1;
+}
+/* Find next prime */
+int next_prime(int x) {
+  while (is_prime(x) != 1) {
+    x++;
+  }
+  return x;
 }

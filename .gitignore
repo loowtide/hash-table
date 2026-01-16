@@ -1,1 +1,3 @@
 tests/
+include/prime.c
+include/prime.h
